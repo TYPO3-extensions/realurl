@@ -2190,6 +2190,13 @@ class tx_realurl {
 				$testConf = array();
 			}
 
+			// hook definitions do not count as config:
+			foreach(array('encodeSpURL_postProc', 'decodeSpURL_preProc', 'getHost') as $hookKey){
+				if ( isset( $testConf[$hookKey] ) ) {
+					unset( $testConf[ $hookKey] );
+				}
+			}
+
 			/** @noinspection PhpIncludeInspection */
 			if (count($testConf) == 0 && !@include_once($autoConfPath)) {
 				$autoConfGenerator = t3lib_div::makeInstance('tx_realurl_autoconfgen');
