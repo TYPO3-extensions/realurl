@@ -2179,6 +2179,13 @@ class tx_realurl {
 				$testConf = array();
 			}
 
+			// hook definitions do not count as config:
+			foreach(array('encodeSpURL_postProc', 'decodeSpURL_preProc', 'getHost') as $hookKey){
+				if ( isset( $testConf[$hookKey] ) ) {
+					unset( $testConf[ $hookKey] );
+				}
+			}
+
 			/** @noinspection PhpIncludeInspection */
 			if (count($testConf) == 0 && !@include_once($autoConfPath)) {
 				$autoConfGenerator = $this->apiWrapper->makeInstance('tx_realurl_autoconfgen');
